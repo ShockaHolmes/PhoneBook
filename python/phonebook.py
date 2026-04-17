@@ -75,6 +75,10 @@ class PhoneBook:
                 return name
         return None
 
+    def reverseLookup(self, phone_number: str) -> str:
+        """CamelCase alias to match the Java-style method name used in the prompt."""
+        return self.reverse_lookup(phone_number)
+
     def get_all_contact_names(self) -> List[str]:
         """
         Get all contact names in the phonebook
@@ -88,3 +92,53 @@ class PhoneBook:
         :return: Dictionary mapping names to lists of phone numbers
         """
         return self.phonebook
+
+
+def print_menu() -> None:
+    print("\nPhoneBook Menu")
+    print("1) Add contact number")
+    print("2) Lookup numbers by name")
+    print("3) Reverse lookup by number")
+    print("4) Remove contact by name")
+    print("5) Exit")
+
+
+def run_menu() -> None:
+    phonebook = PhoneBook()
+
+    while True:
+        print_menu()
+        selection = input("Choose an option: ").strip()
+
+        if selection == "1":
+            name = input("Enter name: ").strip()
+            phone_number = input("Enter phone number: ").strip()
+            phonebook.add(name, phone_number)
+            print(f"Added entry for {name}.")
+        elif selection == "2":
+            name = input("Enter name to lookup: ").strip()
+            numbers = phonebook.lookup(name)
+            if numbers:
+                print(f"Numbers for {name}: {numbers}")
+            else:
+                print(f"No numbers found for {name}.")
+        elif selection == "3":
+            phone_number = input("Enter number to reverse lookup: ").strip()
+            name = phonebook.reverseLookup(phone_number)
+            if name is None:
+                print(f"No contact found for {phone_number}.")
+            else:
+                print(f"{phone_number} belongs to {name}.")
+        elif selection == "4":
+            name = input("Enter name to remove: ").strip()
+            phonebook.remove(name)
+            print(f"Removed {name} if it existed.")
+        elif selection == "5":
+            print("Goodbye.")
+            break
+        else:
+            print("Invalid option. Please choose 1-5.")
+
+
+if __name__ == "__main__":
+    run_menu()
